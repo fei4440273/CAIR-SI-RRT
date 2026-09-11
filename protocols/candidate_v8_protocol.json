@@ -1,0 +1,151 @@
+{
+  "schema_version": 1,
+  "milestone_id": "adaptive-repair-80pct-completion-reachable-ellipsoid-20260904",
+  "candidate_version": "candidate-v8-reachable-ellipsoid-axis-v1",
+  "method_scope": [
+    "adaptive_tube_repair"
+  ],
+  "robot": "XArm6",
+  "source_scene": "mass_test/tests/20_spheres/test_number_0/scene_task.json",
+  "candidate_v2_evidence": {
+    "selection": "submission_check/adaptive_repair_first_scene_optimization_20260901/evidence/05_developer_selection.json",
+    "manifest": "submission_check/adaptive_repair_first_scene_optimization_20260901/evidence/07_final_manifest.json",
+    "analysis": "submission_check/adaptive_repair_first_scene_optimization_20260901/evidence/01_final_statistical_comparison.json",
+    "tasks": "submission_check/adaptive_repair_first_scene_optimization_20260901/evidence/02_final_matched_tasks.csv",
+    "updates": "submission_check/adaptive_repair_first_scene_optimization_20260901/evidence/03_final_matched_updates.csv",
+    "provenance": "submission_check/adaptive_repair_first_scene_optimization_20260901/evidence/10_trial_provenance_audit.json"
+  },
+  "predecessor_negative_result": {
+    "milestone_id": "adaptive-repair-80pct-completion-exploration-rate-fine-20260904",
+    "execution_manifest_sha256": "de35715152d53e9290f5a679f2e195f81984e2cc40709dee0fb37433600ca1f8",
+    "statistics_sha256": "31d96c3683646bfa0f27c2b60202ca5ef7cd24f806b12370fe7b03a70b349b7d",
+    "selection_sha256": "a0099e10db17576b1d152b46a41147abe5263773bb96934a2393920ded418af4",
+    "result": "rate_0001_reached_208_of_250_but_missed_developer_total_by_five"
+  },
+  "fixed_planner_environment": {
+    "MSIRRT_REUSE_PARSED_PREDICTION_METADATA": "1",
+    "MSIRRT_COOPERATIVE_DEADLINE_CHECKS": "1",
+    "MSIRRT_CONDITIONAL_EXPLORATION_RATE": "0.001"
+  },
+  "scenarios": [
+    "position_noise",
+    "random_acceleration",
+    "sudden_turn",
+    "occlusion",
+    "complete_failure"
+  ],
+  "failure_scenarios": [
+    "complete_failure"
+  ],
+  "deadline_ms": 100.0,
+  "target": {
+    "total_tasks": 500,
+    "minimum_completed": 416,
+    "tasks_per_scenario": 100,
+    "minimum_completed_per_scenario": 70,
+    "null_completion_rate": 0.8,
+    "one_sided_alpha": 0.05
+  },
+  "developer_gate": {
+    "total_tasks_per_arm": 250,
+    "minimum_completed": 213,
+    "tasks_per_scenario": 50,
+    "minimum_completed_per_scenario": 35,
+    "maximum_p99_point_ms": 95.0,
+    "completion_may_regress_from_baseline": false
+  },
+  "validation_gate": {
+    "total_tasks": 250,
+    "minimum_completed": 213,
+    "tasks_per_scenario": 50,
+    "minimum_completed_per_scenario": 35,
+    "maximum_p99_point_ms": 95.0,
+    "paired_completion_may_regress": false,
+    "safe_interval_equivalence_required": true
+  },
+  "latency_bootstrap": {
+    "resamples": 10000,
+    "seed": 20260902,
+    "quantile": 0.99,
+    "one_sided_confidence": 0.95,
+    "maximum_upper_ms": 100.0,
+    "scopes": [
+      "overall",
+      "by_scenario",
+      "update_zero"
+    ]
+  },
+  "zero_event_fields": [
+    "executed_truth_collision",
+    "braking_collision",
+    "stale_prefix_collision",
+    "stale_prefix_execution_after_invalidation",
+    "tree_invariant_failure",
+    "returned_path_current_scene_validation_failure",
+    "explicit_deadline_miss",
+    "hidden_deadline_miss"
+  ],
+  "primary_failure_order": [
+    "initial_planning_failed",
+    "post_change_repair_failed",
+    "reliable_horizon_too_short",
+    "deadline_missed",
+    "prediction_unavailable_stop",
+    "safety_validation_failed",
+    "invalid_or_missing_result"
+  ],
+  "safe_interval_transitions": [
+    "unchanged",
+    "shrink",
+    "expand",
+    "shift",
+    "split",
+    "merge",
+    "delete"
+  ],
+  "stage_timing_fields": [
+    "prediction_ms",
+    "tube_update_ms",
+    "safe_interval_update_ms",
+    "tree_repair_ms",
+    "search_ms",
+    "fallback_ms"
+  ],
+  "candidate_axis": {
+    "name": "reachable_ellipsoid_sampling",
+    "environment": "MSIRRT_REACHABLE_ELLIPSOID_SAMPLING",
+    "baseline": {
+      "arm_id": "candidate_v7_rejection_sampling",
+      "value": 0
+    },
+    "candidates": [
+      {
+        "arm_id": "candidate_reachable_ellipsoid",
+        "value": 1
+      }
+    ],
+    "tie_break": "largest_value"
+  },
+  "seed_registry": {
+    "diagnostic": {
+      "start": 3001,
+      "stop": 3020
+    },
+    "developer": {
+      "start": 3101,
+      "stop": 3150
+    },
+    "validation": {
+      "start": 3201,
+      "stop": 3250
+    },
+    "final": {
+      "start": 3301,
+      "stop": 3400
+    },
+    "failure": {
+      "start": 3501,
+      "stop": 3600
+    }
+  }
+}

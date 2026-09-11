@@ -1,0 +1,35 @@
+#pragma once
+
+#include <vector>
+#include <string>
+#include <Eigen/Core>
+#include "coal/collision.h"
+#include "coal/collision_data.h"
+#include "config_read_writer/CubeObstacleJsonInfo.hpp"
+namespace MDP
+{
+
+    class SphereObstacleJsonInfo: public ObstacleJsonInfo
+    {
+    public:
+        SphereObstacleJsonInfo(std::string _name, std::string _type,
+                             const std::vector<std::vector<float>> &coordinates_raw,
+                             float fps, float radius, 
+                             bool _is_static,
+                             std::vector<float> _uncertainty_radii = {});
+        ~SphereObstacleJsonInfo() = default;                                            // destructor
+        SphereObstacleJsonInfo(const SphereObstacleJsonInfo &other) = default;            // copy constructor
+        SphereObstacleJsonInfo(SphereObstacleJsonInfo &&other) = default;                 // move constructor
+        SphereObstacleJsonInfo &operator=(const SphereObstacleJsonInfo &other) = default; // copy assignment
+        SphereObstacleJsonInfo &operator=(SphereObstacleJsonInfo &&other) = default;      // move assignment
+
+        float get_radius() const;
+        const std::vector<float> &get_uncertainty_radii() const;
+        float get_uncertainty_radius(std::size_t frame) const;
+        
+    private:
+        float radius;
+        std::vector<float> uncertainty_radii;
+    };
+
+} // namespace MDP

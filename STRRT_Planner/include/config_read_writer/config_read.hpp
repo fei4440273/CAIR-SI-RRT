@@ -1,0 +1,103 @@
+#pragma once
+
+#include <chrono>
+#include <cmath>
+#include <config_read_writer/CubeObstacleJsonInfo.hpp>
+#include <config_read_writer/ObstacleJsonInfo.hpp>
+#include <config_read_writer/RobotObstacleJsonInfo.hpp>
+#include <config_read_writer/SphereObstacleJsonInfo.hpp>
+#include <filesystem>
+#include <fstream>
+#include <functional>
+#include <iostream>
+#include <rapidjson/document.h>
+#include <rapidjson/istreamwrapper.h>
+#include <rapidjson/stringbuffer.h>
+#include <rapidjson/writer.h>
+#include <string>
+#include <unordered_map>
+#include <utility>
+#include <vector>
+
+namespace MDP {
+class ConfigReader {
+public:
+  /*
+  Reads the json and creates SceneTask struct
+  */
+  explicit ConfigReader(const std::string &path_to_scene_json); // constructor
+
+  ~ConfigReader() = default; // destructor
+
+  struct SceneTask {
+    std::vector<double> start_configuration;
+    std::vector<double> end_configuration;
+    unsigned int frame_count;
+    unsigned int fps;
+    std::vector<std::shared_ptr<MDP::ObstacleJsonInfo>> obstacles;
+    std::vector<MDP::RobotObstacleJsonInfo> robot_obstacles;
+    std::string robot_urdf_path;
+    std::vector<double> robot_base_coords;
+    std::vector<double> robot_base_quat_rot;
+    std::vector<std::string> robot_joints_order;
+    std::vector<double> robot_joint_max_velocity;
+    std::vector<double> robot_capsules_radius;
+    int robot_joint_count;
+    double start_time;
+    bool has_prediction_metadata = false;
+    std::string prediction_status = "unspecified";
+    unsigned int prediction_issue_frame = 0;
+    unsigned int reliable_until_frame;
+    std::vector<MDP::ObstacleCoordinate> robot_base_position_vector;
+    SceneTask(std::vector<double> _start_configuration,
+              std::vector<double> _end_configuration, unsigned int _frame_count,
+              unsigned int _fps,
+              std::vector<std::shared_ptr<MDP::ObstacleJsonInfo>> _obstacles,
+              std::vector<MDP::RobotObstacleJsonInfo> _robot_obstacles,
+              std::string _robot_urdf_path,
+              std::vector<double> _robot_base_coords,
+              std::vector<double> _robot_base_quat_rot,
+              std::vector<std::string> _robot_joints_order,
+              std::vector<MDP::ObstacleCoordinate> _robot_base_position_vector,
+              std::vector<double> _robot_joint_max_velocity,
+              std::vector<double> _robot_capsules_radius,
+              int _robot_joint_count,
+              double _start_time)
+        : start_configuration(std::move(_start_configuration)),
+          end_configuration(std::move(_end_configuration)), frame_count(_frame_count),
+          fps(_fps), obstacles(std::move(_obstacles)),
+          robot_obstacles(std::move(_robot_obstacles)),
+          robot_urdf_path(std::move(_robot_urdf_path)),
+          robot_base_coords(std::move(_robot_base_coords)),
+          robot_base_quat_rot(std::move(_robot_base_quat_rot)),
+          robot_joints_order(std::move(_robot_joints_order)),
+          robot_joint_max_velocity(std::move(_robot_joint_max_velocity)),
+          robot_capsules_radius(std::move(_robot_capsules_radius)),
+          robot_joint_count(_robot_joint_count),
+          start_time(_start_time),
+          reliable_until_frame(_frame_count > 0 ? _frame_count - 1 : 0),
+          robot_base_position_vector(std::move(_robot_base_position_vector)){};
+
+    ~SceneTask() = default;                                 // destructor
+    SceneTask(const SceneTask &other) = default;            // copy constructor
+    SceneTask(SceneTask &&other) = default;                 // move constructor
+    SceneTask &operator=(const SceneTask &other) = default; // copy assignment
+    SceneTask &operator=(SceneTask &&other) = default;      // move assignment
+  };
+
+  SceneTask &get_scene_task();
+
+private:
+  ConfigReader(const ConfigReader &other) = delete; // copy constructor
+  ConfigReader(ConfigReader &&other) = delete;      // move constructor
+  ConfigReader &
+  operator=(const ConfigReader &other) = delete;          // copy assignment
+  ConfigReader &operator=(ConfigReader &&other) = delete; // move assignment
+  SceneTask scene_task;
+};
+
+} // namespace MDP
+
+namespace {
+MDP::ConfigReader::SceneTask json_parser(const std::string &path_to_scene_json);
+}

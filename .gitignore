@@ -1,0 +1,30 @@
+# Build and test output
+build/
+Testing/
+*.o
+*.a
+*.so
+*.out
+
+# Python cache and local environments
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.venv/
+venv/
+
+# Generated experiment output
+results/
+smoke-output/
+verification/
+
+# Editor and operating-system files
+.vscode/
+.idea/
+.DS_Store
+
+# Crash dumps and local secrets
+core.*
+.env
+.env.*
+

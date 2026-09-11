@@ -1,0 +1,7 @@
+{
+  "candidate": "candidate-v8-reachable-ellipsoid-axis-v1",
+  "protocol_sha256": "04aec86291c1339de0b1960380c5b9506da270bb5a182d0ccd3cf3cf35bf545e",
+  "release_tree_sha256": "9cb3054c1529b965272561c72b2c38b975646f300a5e5ffde8654eec192c0875",
+  "source_origin_digest": "3ada026d67a3b3b3fac0e3d077b4c9c6bb56e5b7b7557f05326e24b08749aba4",
+  "validated_binary_sha256": "77b03b969bdc89a2d74670032d645e247fdb8080b06460f9e3f6f04d7049102f"
+}

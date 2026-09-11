@@ -1,0 +1,27 @@
+name: cair-si-rrt
+
+services:
+  cair:
+    image: cair-si-rrt-dependencies:v8
+    build:
+      context: .
+      dockerfile: docker/Dockerfile
+      args:
+        CAIR_BUILD_JOBS: "${CAIR_BUILD_JOBS:-}"
+    working_dir: /workspace
+    environment:
+      CAIR_BUILD_JOBS: "${CAIR_BUILD_JOBS:-}"
+      HOME: /tmp/cair-home
+    volumes:
+      - type: bind
+        source: .
+        target: /workspace
+        read_only: true
+      - type: volume
+        source: cair-build
+        target: /workspace/build
+    init: true
+
+volumes:
+  cair-build:
+
